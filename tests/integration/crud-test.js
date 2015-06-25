@@ -13,11 +13,11 @@ var set = Ember.set;
 
 module('CRUD', {
   setup: function() {
-    run( function() {
+    run(function() {
       window.localforage.setItem('DS.LFAdapter', FIXTURES);
     });
 
-    run( function() {
+    run(function() {
       App = startApp();
       store = App.__container__.lookup('store:main');
       adapter = App.__container__.lookup('adapter:application');
