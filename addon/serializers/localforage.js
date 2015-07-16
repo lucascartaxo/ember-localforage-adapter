@@ -4,14 +4,19 @@ import DS from 'ember-data';
 export default DS.JSONSerializer.extend({
 
   serializeHasMany: function(snapshot, json, relationship) {
-    var key = relationship.key,
-        relationshipType = snapshot.type.determineRelationshipType(relationship);
+    var key = relationship.key;
 
-    if (relationshipType === 'manyToNone' ||
-        relationshipType === 'manyToMany' ||
-        relationshipType === 'manyToOne') {
-      json[key] = snapshot.hasMany(key).mapBy('id');
-    // TODO support for polymorphic manyToNone and manyToMany relationships
+    if (this._shouldSerializeHasMany(snapshot, key, relationship)) {
+      var payloadKey;
+
+      // if provided, use the mapping provided by `attrs` in
+      // the serializer
+      payloadKey = this._getMappedKey(key);
+      if (payloadKey === key && this.keyForRelationship) {
+        payloadKey = this.keyForRelationship(key, "hasMany", "serialize");
+      }
+      json[payloadKey] = snapshot.hasMany(key, { ids: true });
+      // TODO support for polymorphic manyToNone and manyToMany relationships
     }
   },
 
