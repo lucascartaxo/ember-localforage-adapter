@@ -290,7 +290,7 @@ export default DS.Adapter.extend(Ember.Evented, {
       relationships = relationships.concat(relationshipNames.hasMany);
 
       relationships.forEach(function(relationName) {
-        var relationModel = type.typeForRelationship(relationName),
+        var relationModel = type.typeForRelationship(relationName, store),
             relationEmbeddedId = record[relationName],
             relationProp  = adapter.relationshipProperties(type, relationName),
             relationType  = relationProp.kind,
