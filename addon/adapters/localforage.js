@@ -105,7 +105,7 @@ export default DS.Adapter.extend(Ember.Evented, {
   },
 
   query: function (records, query) {
-    var results = [],
+    var results = Ember.A(),
         id, record, property, test, push;
     for (id in records) {
       record = records[id];
